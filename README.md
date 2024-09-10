@@ -1,4 +1,4 @@
-# ssShell: A Shell Library for Arduino
+# ssShell: A Small and Simple Shell Library for Arduino
 
 ![LOGO](https://github.com/user-attachments/assets/80d56d89-fe14-49da-adf1-ef34d1921546)
 
