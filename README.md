@@ -14,7 +14,7 @@ The ssShell library is a tool for creating command-line interfaces on Arduino-ba
 
 To use the ssShell library, follow these steps:
 
-1.  Create a `Shell` object to initialize the command system.
+1.  Create a `ssShell` object to initialize the command system.
 2.  Define custom commands using the `addCommand` function.
 3.  Use the `executeCommand` function to execute instructions based on user input.
 
@@ -83,10 +83,10 @@ void loop() {
 
 The ssShell library consists of the following functions and variables:
 
-*   `Shell()`: Constructor to initialize the command system
+*   `ssShell()`: Constructor to initialize the command system
 *   `addCommand(String name, String paramTypes, CommandFunction function)`: Add a custom command to the system
 *   `executeCommand(String input)`: Execute instructions based on user input
-*   `~Shell()`: Destructor to release resources
+*   `~ssShell()`: Destructor to release resources
 
 ## Contribution
 
