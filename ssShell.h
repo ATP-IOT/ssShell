@@ -1,12 +1,12 @@
-#ifndef SHELL_H
-#define SHELL_H
+#ifndef SSSHELL_H
+#define SSSHELL_H
 
 #include <Arduino.h>
 #include "CommandTokenizer.h"
 
 typedef void (*CommandFunction)(void** args);  // Definir un puntero a función genérico.
 
-class Shell {
+class ssShell {
 private:
     struct Command {
         String name;
@@ -24,11 +24,11 @@ private:
     int findCommand(String commandName);  // DECLARACIÓN DE findCommand()
 
 public:
-    Shell();
+    ssShell();
     void addCommand(String name, String paramTypes, CommandFunction function);
     bool executeCommand(String input);
 
-    ~Shell();
+    ~ssShell();
 };
 
 #endif
