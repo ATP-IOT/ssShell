@@ -1,40 +1,97 @@
-# ssShell
+# ssShell: A Shell Library for Arduino
 
-Esta biblioteca está diseñada para ser utilizada con Arduino y permite la creacion de interfaces de comando personalizadas.
+## Description
+The ssShell library is a tool for creating command-line interfaces on Arduino-based devices. It allows you to define custom commands and execute instructions based on user input.
 
-## Comandos
+## Key Features
 
-Los comandos son las instrucciones que se pueden ejecutar en la shell. Cada comando tiene un nombre único y puede tener uno o más parámetros.
+*   Custom command definition with parameters
+*   Support for basic data types (int, float)
+*   Parameter validation and conversion at runtime
+*   Intended use with Arduino
 
-### Parámetros
+## Usage
 
-Los parámetros son los valores que se pasan a cada comando cuando se ejecuta. Los parámetros pueden ser de diferentes tipos, como números enteros o flotantes.
+To use the ssShell library, follow these steps:
 
-## Comando Tokenizer
+1.  Create a `Shell` object to initialize the command system.
+2.  Define custom commands using the `addCommand` function.
+3.  Use the `executeCommand` function to execute instructions based on user input.
 
-El CommandTokenizer es una herramienta que ayuda a dividir las entradas del usuario en comandos y parámetros individuales.
-
-## Ejemplo básico
+## Advanced Example
 
 ```cpp
-#include "ssShell.h"
+#include <ssShell.h>
 
-void miComando(void**) {
-    Serial.println("Se ejecutó el comando 'miComando'");
+Shell shell;  // Crear una instancia de la clase Shell
+
+// Función para el comando "move"
+void moveFunction(void** args) {
+    int* x = (int*)args[0];
+    int* y = (int*)args[1];
+    float* speed = (float*)args[2];
+    
+    Serial.print("Moving to X: ");
+    Serial.print(*x);
+    Serial.print(", Y: ");
+    Serial.print(*y);
+    Serial.print(" at speed: ");
+    Serial.println(*speed);
 }
 
-int main() {
-    Shell shell;
-    shell.addCommand("miComando", "", miComando);
-    while (true) {
+// Función para el comando "rotate"
+void rotateFunction(void** args) {
+    int* angle = (int*)args[0];
+    bool* clockwise = (bool*)args[1];
+
+    Serial.print("Rotating to angle: ");
+    Serial.print(*angle);
+    Serial.print(" degrees, direction: ");
+    Serial.println(*clockwise ? "Clockwise" : "Counter-Clockwise");
+}
+
+// Función para el comando "setSpeed"
+void setSpeedFunction(void** args) {
+    float* speed = (float*)args[0];
+    
+    Serial.print("Setting speed to: ");
+    Serial.println(*speed);
+}
+
+void setup() {
+    Serial.begin(9600);
+
+    // Agregar los comandos con sus parámetros y funciones
+    shell.addCommand("move", "int int flo", moveFunction);  // Comando con dos enteros y un float
+    shell.addCommand("rotate", "int boo", rotateFunction);  // Comando con un entero y un booleano
+    shell.addCommand("setSpeed", "flo", setSpeedFunction);  // Comando con un float
+}
+
+void loop() {
+    if (Serial.available() > 0) {
         String input = Serial.readStringUntil('\n');
-        if (shell.executeCommand(input)) {
-            Serial.println("Se ejecutó el comando con éxito");
-        } else {
-            Serial.println("Error al ejecutar el comando");
+
+        // Intentar ejecutar el comando ingresado
+        if (!shell.executeCommand(input)) {
+            Serial.println("Error: Invalid command or parameters.");
         }
     }
-
-    return 0;
 }
+```
+
+## Documentation
+
+The ssShell library consists of the following functions and variables:
+
+*   `Shell()`: Constructor to initialize the command system
+*   `addCommand(String name, String paramTypes, CommandFunction function)`: Add a custom command to the system
+*   `executeCommand(String input)`: Execute instructions based on user input
+*   `~Shell()`: Destructor to release resources
+
+## Contribution
+
+If you'd like to contribute to the ssShell library, please review the source code and open issues on GitHub. You can submit your proposals for change or correction via pull request.
+
+### Note
+Please note that this is an initial version of the documentation and may contain errors or omissions. If you find any problems or have suggestions, please don't hesitate to contact the developers.
 ```
