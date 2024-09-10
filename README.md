@@ -23,7 +23,7 @@ To use the ssShell library, follow these steps:
 ```cpp
 #include <ssShell.h>
 
-Shell shell;  // Crear una instancia de la clase Shell
+ssShell shell;  // Crear una instancia de la clase Shell
 
 // Función para el comando "move"
 void moveFunction(void** args) {
