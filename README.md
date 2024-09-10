@@ -1,5 +1,8 @@
 # ssShell: A Shell Library for Arduino
 
+![image](https://github.com/user-attachments/assets/802f6941-a08c-4b4c-a961-6bed1369d0dc)
+
+
 ## Description
 The ssShell library is a tool for creating command-line interfaces on Arduino-based devices. It allows you to define custom commands and execute instructions based on user input.
 
