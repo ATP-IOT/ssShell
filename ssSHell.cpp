@@ -1,13 +1,13 @@
 #include "ssSHell.h"
 #include "internalCommands.h"
 
-SsShell shell;
+ssShell shell;
 
-SsShell::SsShell() : serialCount(0), inputIndex(0) {
+ssShell::ssShell() : serialCount(0), inputIndex(0) {
     strcpy(prompt, "ssSHell> ");
 }
 
-void SsShell::begin(Stream &serial) {
+void ssShell::begin(Stream &serial) {
     addSerial(serial);
     library.addCommand("help", cmdHelp);
     library.addCommand("version", cmdVersion);
@@ -20,7 +20,7 @@ void SsShell::begin(Stream &serial) {
     printPrompt();
 }
 
-void SsShell::loop() {
+void ssShell::loop() {
     for (uint8_t i = 0; i < serialCount; i++) {
         while (serials[i]->available()) {
             char c = serials[i]->read();
@@ -36,24 +36,24 @@ void SsShell::loop() {
     }
 }
 
-bool SsShell::addCommand(const char *command, void (*function)(char *)) {
+bool ssShell::addCommand(const char *command, void (*function)(char *)) {
     return library.addCommand(command, function);
 }
 
-bool SsShell::removeCommand(const char *command) {
+bool ssShell::removeCommand(const char *command) {
     return library.removeCommand(command);
 }
 
-void SsShell::listCommands() {
+void ssShell::listCommands() {
     library.listCommands();
 }
 
-void SsShell::setPrompt(const char *newPrompt) {
+void ssShell::setPrompt(const char *newPrompt) {
     strncpy(prompt, newPrompt, MAX_PROMPT_LENGTH - 1);
     prompt[MAX_PROMPT_LENGTH - 1] = '\0';
 }
 
-bool SsShell::addSerial(Stream &serial) {
+bool ssShell::addSerial(Stream &serial) {
     if (serialCount < MAX_SERIALS) {
         serials[serialCount++] = &serial;
         return true;
@@ -61,7 +61,7 @@ bool SsShell::addSerial(Stream &serial) {
     return false;
 }
 
-bool SsShell::removeSerial(Stream &serial) {
+bool ssShell::removeSerial(Stream &serial) {
     for (uint8_t i = 0; i < serialCount; i++) {
         if (serials[i] == &serial) {
             for (uint8_t j = i; j < serialCount - 1; j++) {
@@ -74,7 +74,7 @@ bool SsShell::removeSerial(Stream &serial) {
     return false;
 }
 
-void SsShell::processInput() {
+void ssShell::processInput() {
     char command[MAX_INPUT_LENGTH];
     char params[MAX_INPUT_LENGTH];
     
@@ -85,16 +85,16 @@ void SsShell::processInput() {
     }
 }
 
-void SsShell::printPrompt() {
+void ssShell::printPrompt() {
     printToAll(prompt);
 }
 
-void SsShell::printToAll(const char* message) {
+void ssShell::printToAll(const char* message) {
     for (uint8_t i = 0; i < serialCount; i++) {
         serials[i]->print(message);
     }
 }
 
-void SsShell::executeCommand(const char *command, const char *params) {
+void ssShell::executeCommand(const char *command, const char *params) {
     library.executeCommand(command, (char*)params);  
 }
