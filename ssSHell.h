@@ -9,9 +9,9 @@
 #define MAX_PROMPT_LENGTH 32
 #define MAX_SERIALS 5
 
-class SsShell {
+class ssShell {
 public:
-    SsShell();
+    ssShell();
     void begin(Stream &serial);
     void loop();
     bool addCommand(const char *command, void (*function)(char *));
@@ -36,6 +36,6 @@ private:
     void printPrompt();
 };
 
-extern SsShell shell;
+extern ssShell shell;
 
 #endif
